@@ -9,8 +9,8 @@ development on 2026-11-24. The editor is disconnected: nothing in the repo
 depends on it, and the build runs on the plain Vite config in `vite.config.ts`. Work happens
 directly on the `main` branch in
 Renda-Inc/Renda-Web-Banking-frontend. The original source repo (first-remix-of-renda-web-individuals) was deleted
-on GitHub on 2026-11-24 after the move; a local backup sits in
-~/workspace/backups/ outside this repo. Do not build there.
+on GitHub on 2026-11-24 after the move, and no copy of it is retained.
+This repo is the only Renda Web Banking codebase.
 
 ## Architecture
 
