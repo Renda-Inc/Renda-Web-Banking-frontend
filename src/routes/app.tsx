@@ -18,7 +18,7 @@ function AppLayout() {
           <div className="relative min-h-screen bg-background text-ink transition-colors duration-500">
             <div className="atmos" aria-hidden="true" />
             <NavRail />
-            <div className="relative z-10 mx-auto flex max-w-[1600px] gap-10 pb-28 pl-[84px] pr-6 pt-10 lg:pr-10">
+            <div className="relative z-10 flex w-full max-w-[1760px] gap-8 pb-28 pl-[92px] pr-5 pt-10 lg:pr-7">
               <main className="min-w-0 flex-1">
                 <Outlet />
               </main>

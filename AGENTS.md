@@ -49,3 +49,22 @@ This repo is the only Renda Web Banking codebase.
   RENDA_WEB_BASE=/Renda-Web-Banking-frontend/ (both read in vite.config.ts),
   stages `.output/public` with index.html and 404.html from `_shell.html`,
   and removes `_headers`. Local dev and server builds leave both unset.
+
+## Design foundation (user direction, 2026-11-24)
+
+- Thesis: Revolut web meets the Apertra/Airbnb philosophy. Warm off-white
+  canvas, content as large-radius white cards with soft shadows, hairlines
+  only as genuine dividers, real faces and photos for people and goals,
+  pill controls, generous spacing. Never KPI tiles, dense tables or admin
+  styling; this is a consumer product for regular folks, it needs emotion.
+- Type: SF Pro for UI and data; SF Pro Rounded (`font-display`) for
+  greetings, page titles and Alfie's voice. No webfont stand-ins.
+- Dark mode base is #1E1E1E (cards #262626, surfaces #2C2C2C), neutral, no
+  blue tint.
+- Layout: the side nav rail stays exactly as it is. The banking canvas sits
+  left, next to the rail; the Alfie panel is a wide workspace (432px),
+  not a thin chat strip.
+- Sequence: design the individual banking side first, to the user's
+  satisfaction, then apply the same foundation to business banking.
+  Business mode and data stay in the code, undesigned, until then.
+- Account names are "Smart Spend" and "Sense Save" (two words).

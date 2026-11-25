@@ -71,7 +71,7 @@ const iso = (daysAgo: number) => {
 export const PERSONAL_ACCOUNTS: Account[] = [
   {
     id: "smartspend",
-    name: "SmartSpend",
+    name: "Smart Spend",
     kind: "personal",
     role: "spend",
     balance: 4812.4,
@@ -80,7 +80,7 @@ export const PERSONAL_ACCOUNTS: Account[] = [
   },
   {
     id: "sensesave",
-    name: "SenseSave",
+    name: "Sense Save",
     kind: "personal",
     role: "save",
     balance: 13608.25,

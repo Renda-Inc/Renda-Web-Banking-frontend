@@ -38,7 +38,7 @@ function Entry() {
 
       <div className="max-w-[560px] rise">
         <p className="text-[13.5px] font-medium text-ink">This is</p>
-        <h1 className="mt-4 text-[clamp(2.6rem,6vw,4.25rem)] font-semibold leading-[1.02] text-ink">
+        <h1 className="mt-4 font-display text-[clamp(2.6rem,6vw,4.25rem)] font-semibold leading-[1.02] text-ink">
           Renda Web
         </h1>
         <p className="mx-auto mt-6 max-w-[460px] text-[16px] leading-relaxed text-muted-foreground">

@@ -40,8 +40,8 @@ export function AlfiePanel() {
   }
 
   return (
-    <aside className="soft-fade sticky top-8 hidden h-[calc(100vh-4rem)] w-[350px] shrink-0 xl:block">
-      <div className="frost flex h-full flex-col rounded-[1rem] p-6">
+    <aside className="soft-fade sticky top-8 hidden h-[calc(100vh-4rem)] w-[432px] shrink-0 xl:block">
+      <div className="frost flex h-full flex-col rounded-[1.75rem] p-7">
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2 text-brand">
             <Sparkles className="size-[16px]" strokeWidth={2} />
@@ -57,10 +57,10 @@ export function AlfiePanel() {
           </button>
         </div>
 
-        <p className="mt-7 text-[17.5px] leading-relaxed text-ink">
+        <p className="mt-7 font-display text-[19px] leading-relaxed text-ink">
           {business
             ? "Cash flow stays positive through next month. You can safely move CAD $8,400 into your Tax Reserve."
-            : "You're spending about $74 CAD less on dining this month than last. Want me to move that into SenseSave?"}
+            : "You're spending about $74 CAD less on dining this month than last. Want me to move that into Sense Save?"}
         </p>
 
         <div className="mt-5 flex flex-wrap gap-2.5">

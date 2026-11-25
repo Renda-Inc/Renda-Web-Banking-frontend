@@ -26,7 +26,7 @@ export const Route = createFileRoute("/app/cards")({
 const PERSONAL: RendaCard[] = [
   {
     id: "p1",
-    nickname: "SmartSpend",
+    nickname: "Smart Spend",
     holder: "Angels Nwosu",
     type: "Physical · Visa",
     last4: "4192",

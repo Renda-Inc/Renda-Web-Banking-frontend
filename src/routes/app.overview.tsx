@@ -16,6 +16,9 @@ import {
   Wallet,
 } from "lucide-react";
 import { useIsBusiness } from "@/components/renda/mode";
+import avatarMaya from "@/assets/avatar-maya.jpg";
+import avatarDaniel from "@/assets/avatar-daniel.jpg";
+import avatarPriya from "@/assets/avatar-priya.jpg";
 
 export const Route = createFileRoute("/app/overview")({
   head: () => ({
@@ -39,8 +42,8 @@ export const Route = createFileRoute("/app/overview")({
 });
 
 const PERSONAL_ACCOUNTS = [
-  { name: "SmartSpend", balance: "4,812.40", note: "Everyday spending", icon: CreditCard, dark: true },
-  { name: "SenseSave", balance: "13,608.25", note: "Set aside automatically", icon: PiggyBank, dark: false },
+  { name: "Smart Spend", balance: "4,812.40", note: "Everyday spending", icon: CreditCard, dark: true },
+  { name: "Sense Save", balance: "13,608.25", note: "Set aside automatically", icon: PiggyBank, dark: false },
 ] as const;
 
 const BUSINESS_ACCOUNTS = [
@@ -89,17 +92,17 @@ const BUSINESS_SNAPSHOT = [
 ] as const;
 
 const PEOPLE = [
-  { name: "Maya", initials: "MK", last: "$40 · Tue" },
-  { name: "Daniel", initials: "DO", last: "$125 · Mon" },
-  { name: "Priya", initials: "PR", last: "$18 · Sun" },
-  { name: "Noah", initials: "NB", last: "$220 · Fri" },
+  { name: "Maya", initials: "MK", last: "$40 · Tue", photo: avatarMaya },
+  { name: "Daniel", initials: "DO", last: "$125 · Mon", photo: avatarDaniel },
+  { name: "Priya", initials: "PR", last: "$18 · Sun", photo: avatarPriya },
+  { name: "Noah", initials: "NB", last: "$220 · Fri", photo: undefined },
 ] as const;
 
 const VENDORS = [
-  { name: "Northform", initials: "NF", last: "$4,200 · Tue" },
-  { name: "Belltide", initials: "BT", last: "$1,860 · Mon" },
-  { name: "Ovra Studio", initials: "OS", last: "$6,420 · Sun" },
-  { name: "Kestrel Ltd", initials: "KL", last: "$980 · Fri" },
+  { name: "Northform", initials: "NF", last: "$4,200 · Tue", photo: undefined },
+  { name: "Belltide", initials: "BT", last: "$1,860 · Mon", photo: undefined },
+  { name: "Ovra Studio", initials: "OS", last: "$6,420 · Sun", photo: undefined },
+  { name: "Kestrel Ltd", initials: "KL", last: "$980 · Fri", photo: undefined },
 ] as const;
 
 const PERSONAL_ACTIVITY = [
@@ -141,38 +144,37 @@ function Overview() {
 
 
   return (
-    <div className="rise mx-auto max-w-[1000px]">
+    <div className="rise max-w-[1040px]">
       <header className="max-w-[620px]">
-        <p className="text-[13.5px] font-medium text-ink">
+        <p className="text-[13.5px] font-medium text-muted-foreground">
           {today}
         </p>
-        <h1 className="mt-2 text-[19px] font-medium leading-snug text-ink">
+        <h1 className="mt-2 font-display text-[32px] font-semibold leading-tight text-ink">
           {business ? "Good evening, Northline Studio." : "Good evening, Angels."}
         </h1>
       </header>
 
-      <section className="mt-8 border-b border-hairline pb-8">
+      <section className="panel mt-9 rounded-[2rem] p-7 sm:p-9">
         <p className="text-[14.5px] text-muted-foreground">
           {business ? "Total cash position" : "Total assets"}
         </p>
-        <p className="mt-2 text-[clamp(2rem,3.4vw,2.6rem)] font-semibold leading-none tracking-tight tabular-nums">
+        <p className="mt-2 text-[clamp(2.4rem,3.8vw,3.1rem)] font-semibold leading-none tracking-tight tabular-nums">
           {business ? "CAD $279,360" : "CAD $18,420"}
           <span className="text-muted-foreground">{business ? ".60" : ".65"}</span>
         </p>
         <p className="mt-3 text-[14.5px] text-muted-foreground">
-          <span className="text-brand">{business ? "+CAD $21,480" : "+CAD $312"}</span> since last
-          month
+          <span className="font-medium text-brand">{business ? "+CAD $21,480" : "+CAD $312"}</span>{" "}
+          since last month
         </p>
-      </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-9 grid gap-4 sm:grid-cols-2">
         {accounts.map(({ name, balance, note, icon: Icon, dark }) => (
           <article
             key={name}
             className={
               dark
-                ? "group rounded-[0.875rem] bg-ink p-6 text-background transition-colors duration-300"
-                : "panel group p-6 transition-colors duration-300"
+                ? "group rounded-[1.5rem] bg-ink p-7 text-background shadow-[0_20px_44px_-24px_rgba(0,0,0,0.45)] transition-transform duration-300 hover:-translate-y-0.5"
+                : "surface group p-7 transition-transform duration-300 hover:-translate-y-0.5"
             }
           >
             <div className="flex items-center justify-between gap-4">
@@ -210,10 +212,11 @@ function Overview() {
             </p>
           </article>
         ))}
+        </div>
       </section>
 
-      <section className="panel mt-12 p-6 sm:p-7">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Today's snapshot</p>
+      <section className="panel mt-6 p-7 sm:p-8">
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Today's snapshot</p>
         {business ? (
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {snapshot.map(({ icon: Icon, text, tone }) => (
@@ -231,17 +234,17 @@ function Overview() {
             ))}
           </div>
         ) : (
-          <ul className="mt-3 overflow-hidden rounded-[0.625rem]">
-            {snapshot.map(({ icon: Icon, text, tone }, i) => (
+          <ul className="mt-4 space-y-1.5">
+            {snapshot.map(({ icon: Icon, text, tone }) => (
               <li
                 key={text}
-                className={`flex items-center gap-4 px-4 py-3.5 ${i % 2 === 1 ? "bg-canvas" : "bg-card"}`}
+                className="flex items-center gap-4 rounded-2xl px-3 py-3 transition-colors duration-200 hover:bg-canvas"
               >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-[0.5rem] bg-accent text-accent-foreground">
-                  <Icon className="size-[15px]" strokeWidth={1.8} />
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
+                  <Icon className="size-[16px]" strokeWidth={1.8} />
                 </span>
                 <p className="text-[15.5px] leading-snug text-ink">{text}</p>
-                <span className="ml-auto hidden text-[13.5px] text-ink sm:block">
+                <span className="ml-auto hidden shrink-0 rounded-full bg-canvas px-3 py-1 text-[12.5px] font-medium text-muted-foreground sm:block">
                   {tone}
                 </span>
               </li>
@@ -250,9 +253,9 @@ function Overview() {
         )}
       </section>
 
-      <section className="panel mt-6 p-6 sm:p-7">
+      <section className="panel mt-6 p-7 sm:p-8">
         <div className="flex items-center justify-between gap-4">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">
             {business ? "Recent payees" : "Recent people"}
           </p>
           <button type="button" className="btn-solid hover:btn-solid-hover">
@@ -266,9 +269,17 @@ function Overview() {
               type="button"
               className="group flex w-[112px] flex-col items-center gap-3 text-center"
             >
-              <span className="flex size-[72px] items-center justify-center rounded-full bg-canvas text-[19px] font-semibold text-ink ring-1 ring-ink/10 transition-colors duration-300 group-hover:ring-ink/25">
-                {p.initials}
-              </span>
+              {p.photo ? (
+                <img
+                  src={p.photo}
+                  alt={p.name}
+                  className="size-[72px] rounded-full object-cover shadow-[0_10px_24px_-12px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-[1.04]"
+                />
+              ) : (
+                <span className="flex size-[72px] items-center justify-center rounded-full bg-accent font-display text-[19px] font-semibold text-accent-foreground transition-transform duration-300 group-hover:scale-[1.04]">
+                  {p.initials}
+                </span>
+              )}
               <span className="text-[16px] font-medium leading-none text-ink">{p.name}</span>
               <span className="text-[14px] leading-none text-muted-foreground">{p.last}</span>
             </button>
@@ -276,13 +287,13 @@ function Overview() {
         </div>
       </section>
 
-      <section className="panel mt-6 p-6 sm:p-7">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Recent activity</p>
-        <div className="mt-3 overflow-hidden rounded-[0.625rem]">
-          {visibleActivity.map((t, i) => (
+      <section className="panel mt-6 p-7 sm:p-8">
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Recent activity</p>
+        <div className="mt-4 space-y-1">
+          {visibleActivity.map((t) => (
             <div
               key={t.name}
-              className={`flex items-center justify-between px-4 py-3.5 ${i % 2 === 1 ? "bg-canvas" : "bg-card"}`}
+              className="flex items-center justify-between rounded-2xl px-3 py-3.5 transition-colors duration-200 hover:bg-canvas"
             >
               <div>
                 <p className="text-[15px] font-medium text-ink">{t.name}</p>

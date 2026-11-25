@@ -34,7 +34,7 @@ const ITEMS = [
   {
     icon: TrendingDown,
     title: "Dining is down $74 this month",
-    body: "A quieter month than usual. Worth moving into SenseSave?",
+    body: "A quieter month than usual. Worth moving into Sense Save?",
     when: "2 days ago",
   },
 ] as const;
