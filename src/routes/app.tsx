@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { NavRail } from "@/components/renda/nav-rail";
 import { AlfiePanel } from "@/components/renda/alfie-panel";
+import { BusinessSuiteBar } from "@/components/renda/business-suite-bar";
 import { ThemeProvider } from "@/components/renda/theme";
 import { ModeProvider } from "@/components/renda/mode";
 import { BusinessDataProvider } from "@/components/renda/business-data";
@@ -20,6 +21,7 @@ function AppLayout() {
             <NavRail />
             <div className="relative z-10 flex w-full max-w-[1760px] gap-8 pb-28 pl-[92px] pr-5 pt-10 lg:pr-7">
               <main className="min-w-0 flex-1">
+                <BusinessSuiteBar />
                 <Outlet />
               </main>
               <AlfiePanel />

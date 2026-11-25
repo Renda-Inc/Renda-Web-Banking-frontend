@@ -29,18 +29,11 @@ const NAV = [
   { label: "Insights", to: "/app/insights", icon: Sparkles },
 ] as const;
 
-const BUSINESS_UTILITY = [
-  { label: "Expenses", to: "/app/expenses", icon: Receipt },
-  { label: "Books", to: "/app/books", icon: BookOpen },
-  { label: "Taxes", to: "/app/taxes", icon: Landmark },
-] as const;
-
 const PROFILE_ITEMS = [
   { label: "My Profile", icon: UserRound },
   { label: "My Renda Plan", icon: Sparkles },
   { label: "Help", icon: HelpCircle },
 ] as const;
-
 
 const APPEARANCES: { value: Appearance; label: string; icon: typeof Sun }[] = [
   { value: "light", label: "Light", icon: Sun },
@@ -112,31 +105,6 @@ export function NavRail() {
       </nav>
 
       <div ref={panelRef} className="relative flex flex-col items-center gap-3">
-        {business ? (
-          <>
-            {BUSINESS_UTILITY.map(({ label, to, icon: Icon }) => {
-              const active = pathname.startsWith(to);
-              return (
-                <Link
-                  key={to}
-                  to={to}
-                  aria-label={label}
-                  title={label}
-                  data-active={active}
-                  className={`${railBtn} data-[active=true]:bg-brand/12 data-[active=true]:text-brand`}
-                >
-                  <Icon className="size-[19px]" strokeWidth={1.85} />
-                  <span
-                    className="absolute left-0 h-5 w-[3px] rounded-r-full bg-brand transition-all duration-300"
-                    style={{ opacity: active ? 1 : 0, transform: active ? "scaleY(1)" : "scaleY(0.3)" }}
-                  />
-                </Link>
-              );
-            })}
-            <span className="my-0.5 h-px w-6 bg-hairline" />
-          </>
-        ) : null}
-
         <button
           type="button"
           aria-label="Appearance"
