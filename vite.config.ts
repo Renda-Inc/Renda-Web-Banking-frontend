@@ -138,6 +138,10 @@ function prerenderPreviewShimCleanup(): Plugin {
 }
 
 export default defineConfig(({ command }) => ({
+  // Static-hosting builds (GitHub Pages) set RENDA_WEB_SPA=1 and
+  // RENDA_WEB_BASE to the deployment subpath; local dev and server builds
+  // leave both unset.
+  base: process.env["RENDA_WEB_BASE"] ?? "/",
   plugins: [
     tailwindcss(),
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
@@ -145,6 +149,7 @@ export default defineConfig(({ command }) => ({
       // Redirect TanStack Start's bundled server entry to src/server.ts
       // (our SSR error wrapper). Nitro builds from this.
       server: { entry: "server" },
+      ...(process.env["RENDA_WEB_SPA"] === "1" ? { spa: { enabled: true } } : {}),
       importProtection: {
         behavior: "error",
         client: {

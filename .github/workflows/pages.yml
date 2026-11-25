@@ -1,0 +1,50 @@
+name: Deploy Renda Web Banking to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - name: Build static (SPA) snapshot for the Pages subpath
+        env:
+          RENDA_WEB_SPA: "1"
+          RENDA_WEB_BASE: "/Renda-Web-Banking-frontend/"
+        run: bun run build
+      - name: Prepare Pages artifact (SPA shell + 404 fallback)
+        run: |
+          test -f .output/public/_shell.html
+          cd .output/public
+          cp _shell.html index.html
+          rm _shell.html
+          cp index.html 404.html
+          rm -f _headers
+          touch .nojekyll
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+      - id: deployment
+        uses: actions/deploy-pages@v4

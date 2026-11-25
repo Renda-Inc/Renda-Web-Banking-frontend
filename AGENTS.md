@@ -8,8 +8,9 @@ This project was started in a hosted editor and moved to standalone
 development on 2026-11-24. The editor is disconnected: nothing in the repo
 depends on it, and the build runs on the plain Vite config in `vite.config.ts`. Work happens
 directly on the `main` branch in
-Renda-Inc/Renda-Web-Banking-frontend. The original source repo (first-remix-of-renda-web-individuals) is where
-this was taken from; do not build there.
+Renda-Inc/Renda-Web-Banking-frontend. The original source repo (first-remix-of-renda-web-individuals) was deleted
+on GitHub on 2026-11-24 after the move; a local backup sits in
+~/workspace/backups/ outside this repo. Do not build there.
 
 ## Architecture
 
@@ -37,3 +38,14 @@ this was taken from; do not build there.
 - No em dashes in user-facing copy.
 - Customers are "Renda users", never "Renda people".
 - No AI-generated images in deliverables unless the user explicitly asks.
+
+## Deploy
+
+- GitHub Pages auto-deploys on every push to `main` via
+  `.github/workflows/pages.yml` (same official Pages actions pattern as the
+  Renda Employee Dashboard). Live at
+  https://renda-inc.github.io/Renda-Web-Banking-frontend/
+- The workflow builds the SPA snapshot with RENDA_WEB_SPA=1 and
+  RENDA_WEB_BASE=/Renda-Web-Banking-frontend/ (both read in vite.config.ts),
+  stages `.output/public` with index.html and 404.html from `_shell.html`,
+  and removes `_headers`. Local dev and server builds leave both unset.
