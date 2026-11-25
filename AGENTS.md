@@ -122,3 +122,31 @@ takes no layout space, so headers align exactly across modes. A slide-in suite d
 also rendered broken: fixed-position elements inside the pages' animated
 `rise` container get positioned against that container, not the
 viewport). Do not re-add rail icons for these screens.
+
+## Business suite redesign (Alfie-first, user approved 2026-11-24)
+
+After a competitor review (Ramp, Brex, Xero JAX, QuickBooks, Digits,
+Mercury Books, Relay, Found), the three suite screens were rebuilt on one
+pattern: Alfie states what it has done, then hands the owner only what
+needs them. The data already carried per-expense `reasoning` and
+`confidence`; the screens now surface them.
+
+- Expenses: Alfie hero (filed count and percent, what is waiting), then a
+  "Needs your review" triage queue: one card per pending expense with
+  Alfie's reasoning, its filed category and confidence, a one-tap Confirm
+  (which teaches Alfie via confidence 1 plus a reasoning note) or
+  Change/Review opening the detail sheet. Filters collapsed behind a
+  toggle (search always visible); list rows unstriped.
+- Books: Alfie narrative hero for the period, the four period numbers as
+  one calm panel (no tiles), the reconciliation list promoted directly
+  under it as "Needs your attention" with a button into the Expenses
+  review queue, balance sheet retitled in plain language (What you own /
+  What you owe / What's yours, accounting terms kept as secondary
+  labels).
+- Tax Readiness: the next obligation is the hero (name, due, amount,
+  reserve coverage), with the set-aside mechanic visible in the hero:
+  "Alfie sets aside 8% of every deposit into Tax Reserve" with a working
+  toggle. GST and deductibility numbers are calm panels, deadlines and
+  records unstriped, and every "Alfie is watching" item that can act now
+  has an action (review in Expenses, jump to the record, flag for the
+  accountant, add a claim).

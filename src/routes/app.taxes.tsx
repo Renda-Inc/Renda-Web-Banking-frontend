@@ -1,10 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { REVENUE, formatDate, money, shortMoney, useBusinessData } from "@/components/renda/business-data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { downloadFile, toCsv } from "@/lib/export";
 
@@ -44,6 +45,7 @@ function Taxes() {
   const { expenses } = useBusinessData();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState(ANY);
+  const [setAside, setSetAside] = useState(true);
 
   const gstCollected = REVENUE.reduce((s, r) => s + r.gst, 0);
   const gstPaid = expenses.reduce((s, x) => s + x.gst, 0);
@@ -91,7 +93,35 @@ function Taxes() {
         </p>
       </header>
 
-      <section className="mt-12 panel p-7 lg:p-8">
+      <section className="panel mt-10 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
+        <p className="flex items-center gap-2 text-[13.5px] font-medium text-brand">
+          <Sparkles className="size-[15px]" strokeWidth={2} />
+          Next obligation
+        </p>
+        <p className="mt-5 font-display text-[clamp(1.7rem,3vw,2.3rem)] font-semibold leading-tight tracking-tight text-ink">
+          {OBLIGATIONS[0]!.name} · {OBLIGATIONS[0]!.due.toLowerCase()}
+        </p>
+        <p className="mt-3 text-[clamp(1.6rem,3vw,2.2rem)] font-semibold tracking-tight tabular-nums text-ink">
+          {OBLIGATIONS[0]!.amount}
+        </p>
+        <p className="mt-2.5 max-w-[560px] text-[15.5px] leading-relaxed text-muted-foreground">
+          Your Tax Reserve covers it in full, with CAD $23,580 to spare. Alfie keeps this estimate current
+          as money moves, so the number you see is the number you will owe.
+        </p>
+        <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-ink/8 pt-6">
+          <div className="max-w-[520px]">
+            <p className="text-[15.5px] font-medium text-ink">Alfie sets aside 8% of every deposit into Tax Reserve</p>
+            <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
+              {setAside
+                ? "On. The reserve fills itself as revenue lands, a little at a time, never in one lump."
+                : "Paused. Nothing is being set aside right now, and the reserve will stop growing."}
+            </p>
+          </div>
+          <Switch checked={setAside} onCheckedChange={setSetAside} aria-label="Toggle automatic tax set-aside" />
+        </div>
+      </section>
+
+      <section className="panel mt-6 p-7 lg:p-8">
         <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Set aside in Tax Reserve</p>
         <p className="mt-3 text-[clamp(2rem,3.6vw,2.6rem)] font-semibold tracking-tight tabular-nums">
           CAD $38,400.00
@@ -101,31 +131,35 @@ function Taxes() {
         </p>
       </section>
 
-      <section className="mt-6 grid gap-5 sm:grid-cols-3">
-        {[
-          { label: "GST/HST collected", value: money(gstCollected) },
-          { label: "GST/HST paid", value: money(gstPaid) },
-          { label: "Estimated GST/HST payable", value: money(payable) },
-        ].map((s) => (
-          <div key={s.label} className="panel p-7">
-            <p className="text-[15.5px] text-ink">{s.label}</p>
-            <p className="mt-3 text-[22px] font-semibold tracking-tight tabular-nums">{s.value}</p>
-          </div>
-        ))}
+      <section className="panel mt-6 p-7 lg:p-8">
+        <div className="grid gap-8 sm:grid-cols-3">
+          {[
+            { label: "GST/HST collected", value: money(gstCollected) },
+            { label: "GST/HST paid", value: money(gstPaid) },
+            { label: "Estimated GST/HST payable", value: money(payable) },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-[14px] text-muted-foreground">{s.label}</p>
+              <p className="mt-2.5 text-[clamp(1.3rem,1.9vw,1.6rem)] font-semibold tracking-tight tabular-nums text-ink">{s.value}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section className="mt-6 grid gap-5 sm:grid-cols-3">
-        {[
-          { label: "Tax-deductible expenses", value: shortMoney(deductible.reduce((s, x) => s + x.amount, 0)), meta: `${deductible.length} transactions` },
-          { label: "Non-deductible expenses", value: shortMoney(nonDeductible.reduce((s, x) => s + x.amount, 0)), meta: `${nonDeductible.length} transactions` },
-          { label: "Needs review", value: shortMoney(review.reduce((s, x) => s + x.amount, 0)), meta: `${review.length} transactions` },
-        ].map((s) => (
-          <div key={s.label} className="panel p-7">
-            <p className="text-[15.5px] text-ink">{s.label}</p>
-            <p className="mt-3 text-[20px] font-semibold tracking-tight tabular-nums">{s.value}</p>
-            <p className="mt-1 text-[15.5px] text-ink">{s.meta}</p>
-          </div>
-        ))}
+      <section className="panel mt-6 p-7 lg:p-8">
+        <div className="grid gap-8 sm:grid-cols-3">
+          {[
+            { label: "Tax-deductible expenses", value: shortMoney(deductible.reduce((s, x) => s + x.amount, 0)), meta: `${deductible.length} transactions` },
+            { label: "Non-deductible expenses", value: shortMoney(nonDeductible.reduce((s, x) => s + x.amount, 0)), meta: `${nonDeductible.length} transactions` },
+            { label: "Needs review", value: shortMoney(review.reduce((s, x) => s + x.amount, 0)), meta: `${review.length} transactions` },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-[14px] text-muted-foreground">{s.label}</p>
+              <p className="mt-2.5 text-[clamp(1.3rem,1.9vw,1.6rem)] font-semibold tracking-tight tabular-nums text-ink">{s.value}</p>
+              <p className="mt-1 text-[14.5px] text-muted-foreground">{s.meta}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="mt-10 panel p-6 sm:p-7">
@@ -134,9 +168,7 @@ function Taxes() {
           {OBLIGATIONS.map((o, i) => (
             <div
               key={o.name}
-              className={`flex items-center justify-between rounded-xl px-4 py-4 ${
-                i % 2 === 1 ? "bg-canvas" : "bg-card"
-              }`}
+              className="flex items-center justify-between rounded-xl px-4 py-4 transition-colors hover:bg-secondary"
             >
               <div>
                 <p className="text-[16px] font-medium text-ink">{o.name}</p>
@@ -154,20 +186,57 @@ function Taxes() {
         </p>
         <ul className="mt-4 divide-y divide-hairline">
           {[
-            "Your GST/HST filing is due in 12 days, the reserve covers it with CAD $23,580 to spare.",
-            `${review.length} transactions need a decision before they can be treated as deductible.`,
-            "Kettle & Co. CAD $240.00 looks like client entertainment, only 50% is usually deductible.",
-            "The Apple Store purchase of CAD $3,299.00 may be a capital asset your accountant should depreciate.",
-            "Home-office and vehicle claims aren't captured from banking data, worth adding before filing.",
-          ].map((t) => (
-            <li key={t} className="py-3.5 text-[15.5px] leading-relaxed first:pt-0 last:pb-0">
-              {t}
+            {
+              text: "Your GST/HST filing is due in 12 days, the reserve covers it with CAD $23,580 to spare.",
+            },
+            {
+              text: `${review.length} transactions need a decision before they can be treated as deductible.`,
+              action: "Review in Expenses",
+              to: "/app/expenses" as const,
+            },
+            {
+              text: "Kettle & Co. CAD $240.00 looks like client entertainment, only 50% is usually deductible.",
+              action: "See the record",
+              run: () => {
+                setStatus("review");
+                document.getElementById("tax-records")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              },
+            },
+            {
+              text: "The Apple Store purchase of CAD $3,299.00 may be a capital asset your accountant should depreciate.",
+              action: "Flag for accountant",
+              run: () => toast.success("Flagged, it will be marked in your next accountant export"),
+            },
+            {
+              text: "Home-office and vehicle claims aren't captured from banking data, worth adding before filing.",
+              action: "Add a claim",
+              run: () => toast.success("Noted, Alfie will include it in the next estimate"),
+            },
+          ].map((item: { text: string; action?: string; to?: "/app/expenses"; run?: () => void }) => (
+            <li key={item.text} className="flex flex-wrap items-center justify-between gap-3 py-3.5 first:pt-0 last:pb-0">
+              <p className="max-w-[640px] text-[15.5px] leading-relaxed">{item.text}</p>
+              {item.to ? (
+                <Link
+                  to={item.to}
+                  className="inline-flex h-9 shrink-0 items-center rounded-full bg-card px-4 text-[14px] font-medium text-ink shadow-[0_1px_4px_oklch(0_0_0/0.08)] transition-colors hover:bg-accent"
+                >
+                  {item.action}
+                </Link>
+              ) : item.run ? (
+                <button
+                  type="button"
+                  onClick={item.run}
+                  className="h-9 shrink-0 rounded-full bg-card px-4 text-[14px] font-medium text-ink shadow-[0_1px_4px_oklch(0_0_0/0.08)] transition-colors hover:bg-accent"
+                >
+                  {item.action}
+                </button>
+              ) : null}
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="mt-6 panel p-6 lg:p-7">
+      <section id="tax-records" className="mt-6 scroll-mt-8 panel p-6 lg:p-7">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative min-w-[220px] flex-1">
             <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -193,9 +262,7 @@ function Taxes() {
           {rows.map((x, i) => (
             <div
               key={x.id}
-              className={`flex items-center justify-between gap-4 rounded-xl px-4 py-3.5 ${
-                i % 2 === 1 ? "bg-canvas" : "bg-card"
-              }`}
+              className="flex items-center justify-between gap-4 rounded-xl px-4 py-3.5 transition-colors hover:bg-secondary"
             >
               <div className="min-w-0">
                 <p className="truncate text-[16px] font-medium text-ink">{x.merchant}</p>
@@ -226,9 +293,7 @@ function Taxes() {
           {HISTORY.map((h, i) => (
             <div
               key={h.period}
-              className={`flex items-center justify-between rounded-xl px-4 py-4 ${
-                i % 2 === 1 ? "bg-canvas" : "bg-card"
-              }`}
+              className="flex items-center justify-between rounded-xl px-4 py-4 transition-colors hover:bg-secondary"
             >
               <div>
                 <p className="text-[16px] font-medium text-ink">{h.period}</p>

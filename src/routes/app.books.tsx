@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AlertTriangle, Copy, FileWarning, Lock, LockOpen, Sparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -157,23 +157,95 @@ function Books() {
         </p>
       )}
 
-      <section className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          { label: "Revenue", value: shortMoney(revenue) },
-          { label: "Expenses", value: shortMoney(expenseTotal) },
-          { label: "Gross profit", value: shortMoney(grossProfit) },
-          { label: "Net profit", value: shortMoney(netProfit) },
-        ].map((s) => (
-          <div key={s.label} className="panel p-7">
-            <p className="text-[15.5px] text-ink">{s.label}</p>
-            <p className="mt-3 text-[23px] font-semibold tracking-tight tabular-nums">{s.value}</p>
-          </div>
-        ))}
+      <section className="panel mt-10 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
+        <p className="flex items-center gap-2 text-[13.5px] font-medium text-brand">
+          <Sparkles className="size-[15px]" strokeWidth={2} />
+          Alfie on your books · {yearly ? YEAR : monthLabel(period)}
+        </p>
+        <div className="mt-5 max-w-[640px] space-y-3.5 font-display text-[19px] leading-relaxed text-ink">
+          <p>
+            Your books are built from your banking as it happens, and they are current right now. Revenue
+            is tracking 14% ahead of forecast, spending is steady against the last three months, and cash
+            flow stays positive through next month at the current run rate.
+          </p>
+          <p>
+            {uncategorised.length + needsReview.length + missingInfo.length > 0
+              ? `${uncategorised.length + needsReview.length + missingInfo.length} things below need your eye to keep them that way. Everything else reconciles itself.`
+              : "Everything reconciles. There is nothing waiting on you."}
+          </p>
+        </div>
+      </section>
+
+      <section className="panel mt-6 p-7 lg:p-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: "Revenue", value: shortMoney(revenue) },
+            { label: "Expenses", value: shortMoney(expenseTotal) },
+            { label: "Gross profit", value: shortMoney(grossProfit) },
+            { label: "Net profit", value: shortMoney(netProfit) },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-[14px] text-muted-foreground">{s.label}</p>
+              <p className="mt-2.5 text-[clamp(1.45rem,2.1vw,1.8rem)] font-semibold tracking-tight tabular-nums text-ink">{s.value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-6 panel p-7 lg:p-8">
+        <p className="flex items-center gap-2 font-display text-[21px] font-semibold tracking-tight text-ink">
+          <Sparkles className="size-3.5 text-brand" strokeWidth={1.9} /> Needs your attention
+        </p>
+        <ul className="mt-4 divide-y divide-hairline">
+          {[
+            {
+              icon: FileWarning,
+              text: `${uncategorised.length} uncategorised transactions`,
+              detail: uncategorised.map((x) => x.merchant).join(", ") || "Nothing outstanding",
+            },
+            {
+              icon: AlertTriangle,
+              text: `${needsReview.length} transactions Alfie wants you to review`,
+              detail: needsReview.map((x) => x.merchant).join(", ") || "Nothing outstanding",
+            },
+            {
+              icon: Copy,
+              text: "1 possible duplicate",
+              detail: "Two Figma charges of CAD $312.00 posted four days apart.",
+            },
+            {
+              icon: AlertTriangle,
+              text: "1 potential error",
+              detail: "Apple Store CAD $3,299.00 may belong on the balance sheet as equipment.",
+            },
+            {
+              icon: FileWarning,
+              text: `${missingInfo.length} transactions missing information`,
+              detail: "Receipts or tax treatment still to confirm.",
+            },
+          ].map(({ icon: Icon, text, detail }) => (
+            <li key={text} className="flex gap-4 py-4 first:pt-0 last:pb-0">
+              <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
+                <Icon className="size-[15px]" strokeWidth={1.8} />
+              </span>
+              <div>
+                <p className="text-[15.5px] font-medium">{text}</p>
+                <p className="mt-1 text-[15.5px] leading-relaxed text-ink">{detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <Link
+          to="/app/expenses"
+          className="mt-5 inline-flex h-10 items-center rounded-full bg-ink px-5 text-[14.5px] font-medium text-background transition-opacity hover:opacity-85"
+        >
+          Open the review queue in Expenses
+        </Link>
       </section>
 
       <section className="mt-6 grid gap-5 lg:grid-cols-3">
         <div className="panel p-7">
-          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Assets</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">What you own <span className="text-[15px] font-normal text-muted-foreground">Assets</span></p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(assets)}</p>
           <ul className="mt-4 space-y-2 text-[15.5px] text-ink">
             {BALANCE_SHEET.assets.map(([k, v]) => (
@@ -185,7 +257,7 @@ function Books() {
           </ul>
         </div>
         <div className="panel p-7">
-          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Liabilities</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">What you owe <span className="text-[15px] font-normal text-muted-foreground">Liabilities</span></p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(liabilities)}</p>
           <ul className="mt-4 space-y-2 text-[15.5px] text-ink">
             {BALANCE_SHEET.liabilities.map(([k, v]) => (
@@ -197,7 +269,7 @@ function Books() {
           </ul>
         </div>
         <div className="panel p-7">
-          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Owner equity</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">What's yours <span className="text-[15px] font-normal text-muted-foreground">Owner equity</span></p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(equity)}</p>
           <p className="mt-4 text-[15.5px] leading-relaxed text-ink">
             Assets less liabilities, refreshed as transactions settle.
@@ -263,58 +335,10 @@ function Books() {
           <div>
             <p className="text-[15.5px] text-ink">Spending</p>
             <p className="mt-1 text-[20px] font-semibold tabular-nums">{shortMoney(expenseTotal)}</p>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-ink">
-              Revenue is tracking 14% ahead of forecast, and spending is steady against the last three
-              months. Cash flow stays positive through next month at the current run rate.
-            </p>
           </div>
         </div>
       </section>
 
-      <section className="mt-6 panel p-7 lg:p-8">
-        <p className="flex items-center gap-2 font-display text-[21px] font-semibold tracking-tight text-ink">
-          <Sparkles className="size-3.5 text-brand" strokeWidth={1.9} /> Reconciliation
-        </p>
-        <ul className="mt-4 divide-y divide-hairline">
-          {[
-            {
-              icon: FileWarning,
-              text: `${uncategorised.length} uncategorised transactions`,
-              detail: uncategorised.map((x) => x.merchant).join(", ") || "Nothing outstanding",
-            },
-            {
-              icon: AlertTriangle,
-              text: `${needsReview.length} transactions Alfie wants you to review`,
-              detail: needsReview.map((x) => x.merchant).join(", ") || "Nothing outstanding",
-            },
-            {
-              icon: Copy,
-              text: "1 possible duplicate",
-              detail: "Two Figma charges of CAD $312.00 posted four days apart.",
-            },
-            {
-              icon: AlertTriangle,
-              text: "1 potential error",
-              detail: "Apple Store CAD $3,299.00 may belong on the balance sheet as equipment.",
-            },
-            {
-              icon: FileWarning,
-              text: `${missingInfo.length} transactions missing information`,
-              detail: "Receipts or tax treatment still to confirm.",
-            },
-          ].map(({ icon: Icon, text, detail }) => (
-            <li key={text} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-              <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
-                <Icon className="size-[15px]" strokeWidth={1.8} />
-              </span>
-              <div>
-                <p className="text-[15.5px] font-medium">{text}</p>
-                <p className="mt-1 text-[15.5px] leading-relaxed text-ink">{detail}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <section className="mt-6 flex flex-wrap gap-3">
         <Button className="h-11 rounded-full px-6" onClick={() => exportReport("Bookkeeping report")}>

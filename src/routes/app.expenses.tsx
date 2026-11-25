@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Paperclip, Search, Sparkles, X } from "lucide-react";
+import { Check, ChevronDown, Paperclip, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import {
   CATEGORIES,
@@ -72,7 +72,7 @@ function Expenses() {
   const [to, setTo] = useState("");
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
-  const [pendingOnly, setPendingOnly] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
   const merchants = useMemo(
@@ -83,7 +83,6 @@ function Expenses() {
   const filtered = useMemo(() => {
     return expenses
       .filter((x) => {
-        if (pendingOnly && x.confidence >= 0.75) return false;
         if (query) {
           const q = query.toLowerCase();
           if (
@@ -108,9 +107,19 @@ function Expenses() {
         return true;
       })
       .sort((a, b) => (a.date < b.date ? 1 : -1));
-  }, [expenses, query, category, merchant, account, method, confidence, from, to, min, max, pendingOnly]);
+  }, [expenses, query, category, merchant, account, method, confidence, from, to, min, max]);
 
   const pending = expenses.filter((x) => x.confidence < 0.75);
+  const autoFiled = expenses.filter((x) => x.confidence >= 0.75).length;
+  const autoPct = expenses.length ? Math.round((autoFiled / expenses.length) * 100) : 0;
+
+  function confirmExpense(x: Expense) {
+    updateExpense(x.id, {
+      confidence: 1,
+      reasoning: `${x.reasoning} You confirmed this filing, so Alfie will treat ${x.merchant} with more confidence from now on.`,
+    });
+    toast.success(`Filed under ${x.category}, Alfie learned from that`);
+  }
   const total = filtered.reduce((s, x) => s + x.amount, 0);
   const selected = expenses.find((x) => x.id === openId) ?? null;
 
@@ -125,7 +134,6 @@ function Expenses() {
     setTo("");
     setMin("");
     setMax("");
-    setPendingOnly(false);
   }
 
   function exportCsv() {
@@ -164,7 +172,82 @@ function Expenses() {
         </Button>
       </header>
 
-      <section className="panel mt-10 p-7 lg:p-8">
+      <section className="panel mt-10 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
+        <p className="flex items-center gap-2 text-[13.5px] font-medium text-brand">
+          <Sparkles className="size-[15px]" strokeWidth={2} />
+          Alfie on your expenses
+        </p>
+        <div className="mt-5 max-w-[640px] space-y-3.5 font-display text-[19px] leading-relaxed text-ink">
+          <p>
+            I have categorised {expenses.length} expenses as they came in, and filed {autoFiled} of them
+            on my own ({autoPct}%). Every filing shows its reasoning, so nothing is a black box.
+          </p>
+          <p>
+            {pending.length > 0
+              ? `${pending.length} need your eye before I can file them with confidence. They are queued below, most take one tap.`
+              : "Nothing is waiting on you. Everything is filed."}
+          </p>
+        </div>
+        {pending.length > 0 && (
+          <button
+            type="button"
+            onClick={() => document.getElementById("review-queue")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="mt-6 h-10 rounded-full bg-ink px-5 text-[15px] font-medium text-background transition-opacity hover:opacity-85"
+          >
+            Review the {pending.length} that need you
+          </button>
+        )}
+      </section>
+
+      {pending.length > 0 && (
+        <section id="review-queue" className="panel mt-6 scroll-mt-8 p-7 lg:p-8">
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">
+            Needs your review
+          </p>
+          <p className="mt-2 text-[15.5px] text-muted-foreground">
+            Alfie files what it is sure of. These it is not, so they wait for you, with its best thinking attached.
+          </p>
+          <div className="mt-6 space-y-4">
+            {pending.map((x) => (
+              <article key={x.id} className="rounded-3xl bg-secondary/60 p-5 sm:p-6">
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <p className="text-[16.5px] font-medium text-ink">{x.merchant}</p>
+                  <p className="text-[16.5px] tabular-nums text-ink">{money(x.amount)}</p>
+                </div>
+                <p className="mt-1 text-[14.5px] text-muted-foreground">
+                  {formatDate(x.date)} · {x.method}
+                  {x.confidence > 0 ? ` · Filed as ${x.category}, ${Math.round(x.confidence * 100)}% sure` : " · Not filed yet"}
+                </p>
+                <p className="mt-3.5 flex items-start gap-2.5 text-[15px] leading-relaxed text-ink">
+                  <Sparkles className="mt-0.5 size-[15px] shrink-0 text-brand" strokeWidth={2} />
+                  {x.reasoning}
+                </p>
+                <div className="mt-4.5 flex flex-wrap gap-2.5 pt-1">
+                  {x.confidence > 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => confirmExpense(x)}
+                      className="inline-flex h-9.5 items-center gap-1.5 rounded-full bg-ink px-4.5 text-[14.5px] font-medium text-background transition-opacity hover:opacity-85"
+                    >
+                      <Check className="size-[15px]" strokeWidth={2.2} />
+                      Confirm {x.category}
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => setOpenId(x.id)}
+                    className="h-9.5 rounded-full bg-card px-4.5 text-[14.5px] font-medium text-ink transition-colors hover:bg-accent"
+                  >
+                    {x.confidence > 0 ? "Change category" : "Review and file"}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="panel mt-6 p-7 lg:p-8">
         <div className="grid gap-8 sm:grid-cols-3">
           {[
             { label: "Filtered total", value: money(total) },
@@ -179,32 +262,6 @@ function Expenses() {
         </div>
       </section>
 
-      {pending.length > 0 && (
-        <section className="mt-6 panel flex flex-wrap items-center justify-between gap-4 p-6">
-          <div className="flex items-start gap-4">
-            <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
-              <Sparkles className="size-4" strokeWidth={1.8} />
-            </span>
-            <div>
-              <p className="text-[15px] font-medium">
-                {pending.length} expenses need a second opinion
-              </p>
-              <p className="mt-1 text-[15.5px] text-ink">
-                Alfie wasn't confident enough to file these on its own. Confirming one teaches it the
-                pattern.
-              </p>
-            </div>
-          </div>
-          <Button
-            variant={pendingOnly ? "default" : "outline"}
-            className="h-11 rounded-full px-6"
-            onClick={() => setPendingOnly((v) => !v)}
-          >
-            {pendingOnly ? "Showing pending" : "Review pending"}
-          </Button>
-        </section>
-      )}
-
       <section className="mt-8 panel p-6 lg:p-7">
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -215,7 +272,16 @@ function Expenses() {
             className="h-11 rounded-full border-hairline bg-secondary pl-11"
           />
         </div>
+        <button
+          type="button"
+          onClick={() => setFiltersOpen((v) => !v)}
+          className="mt-4 inline-flex items-center gap-1.5 text-[14.5px] font-medium text-muted-foreground transition-colors hover:text-ink"
+        >
+          Filters
+          <ChevronDown className={`size-4 transition-transform duration-300 ${filtersOpen ? "rotate-180" : ""}`} strokeWidth={2} />
+        </button>
 
+        {filtersOpen && (
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Field label="Category">
             <Select value={category} onValueChange={setCategory}>
@@ -290,11 +356,12 @@ function Expenses() {
             </Button>
           </div>
         </div>
+        )}
       </section>
 
       <section className="mt-8 panel p-6 sm:p-7">
         <p className="font-display text-[21px] font-semibold tracking-tight text-ink">
-          {pendingOnly ? "Pending review" : "All expenses"}
+          All expenses
         </p>
         <div className="mt-4">
           {filtered.map((x, i) => {
@@ -303,9 +370,7 @@ function Expenses() {
               <button
                 key={x.id}
                 onClick={() => setOpenId(x.id)}
-                className={`flex w-full items-center justify-between gap-4 rounded-xl px-4 py-4 text-left transition-colors duration-200 hover:bg-secondary ${
-                  i % 2 === 1 ? "bg-canvas" : "bg-card"
-                }`}
+                className="flex w-full items-center justify-between gap-4 rounded-xl px-4 py-4 text-left transition-colors duration-200 hover:bg-secondary"
               >
                 <div className="min-w-0">
                   <p className="truncate text-[16px] font-medium text-ink">{x.merchant}</p>
