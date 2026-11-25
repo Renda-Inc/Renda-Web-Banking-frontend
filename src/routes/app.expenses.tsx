@@ -150,10 +150,10 @@ function Expenses() {
   }
 
   return (
-    <div className="rise mx-auto max-w-[1100px]">
+    <div className="rise max-w-[1100px]">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[560px]">
-          <h1 className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Expenses</h1>
+          <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Expenses</h1>
           <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
             Every outgoing transaction from your Renda business account, categorised by Alfie as money
             moves.
@@ -164,17 +164,19 @@ function Expenses() {
         </Button>
       </header>
 
-      <section className="mt-10 grid gap-5 sm:grid-cols-3">
-        {[
-          { label: "Filtered total", value: money(total) },
-          { label: "Transactions shown", value: String(filtered.length) },
-          { label: "Awaiting your review", value: String(pending.length) },
-        ].map((s) => (
-          <div key={s.label} className="panel p-7">
-            <p className="text-[15.5px] text-ink">{s.label}</p>
-            <p className="mt-3 text-[24px] font-semibold tracking-tight tabular-nums">{s.value}</p>
-          </div>
-        ))}
+      <section className="panel mt-10 p-7 lg:p-8">
+        <div className="grid gap-8 sm:grid-cols-3">
+          {[
+            { label: "Filtered total", value: money(total) },
+            { label: "Transactions shown", value: String(filtered.length) },
+            { label: "Awaiting your review", value: String(pending.length) },
+          ].map((s) => (
+            <div key={s.label}>
+              <p className="text-[14px] text-muted-foreground">{s.label}</p>
+              <p className="mt-2.5 text-[clamp(1.45rem,2.1vw,1.8rem)] font-semibold tracking-tight tabular-nums text-ink">{s.value}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {pending.length > 0 && (
@@ -291,7 +293,7 @@ function Expenses() {
       </section>
 
       <section className="mt-8 panel p-6 sm:p-7">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">
           {pendingOnly ? "Pending review" : "All expenses"}
         </p>
         <div className="mt-4">
@@ -328,7 +330,7 @@ function Expenses() {
 
       {rules.length > 0 && (
         <section className="mt-10 panel p-7">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">Categorisation rules</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Categorisation rules</p>
           <ul className="mt-4 divide-y divide-hairline">
             {rules.map((r) => (
               <li key={r.merchant} className="py-3 text-[15.5px] first:pt-0 last:pb-0">

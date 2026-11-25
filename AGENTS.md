@@ -90,3 +90,22 @@ lives in it") and it was built the same night:
   Business Banking as a quiet text link.
 - Persona is consistent: Angels Adeyemi, angels@renda.ca, initials AA
   everywhere (finance data, cards, nav rail).
+
+## Business side designed (user direction, 2026-11-24)
+
+The business side is now designed to the same foundation, in the same
+app and mode system (the user asked for the business banking side built
+out with "the other business stuff from the original", plus a Business
+Banking button back on the entry screen):
+
+- Entry: Log In (individual) and Business Banking are both proper
+  buttons again; the Alfie line sits under them.
+- Business Overview: Alfie's brief is the hero for Northline Studio too
+  (revenue ahead of forecast, payroll covered, GST due in 12 days) with
+  the Move $8,400 to Tax Reserve action and in-place receipt. The old
+  statistics snapshot section is gone for both modes.
+- SmartReserve goals: standalone cards, one Alfie sentence per reserve.
+- Expenses summary is one calm panel of plain numbers, not tiles.
+- Expenses, Taxes and Books: left-aligned canvas, SF Pro Rounded
+  titles, same panel language. Business Finance and team Cards inherit
+  the v2 treatment (dark first account card, plain statistics).

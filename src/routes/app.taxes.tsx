@@ -82,9 +82,9 @@ function Taxes() {
   }
 
   return (
-    <div className="rise mx-auto max-w-[1100px]">
+    <div className="rise max-w-[1100px]">
       <header className="max-w-[600px]">
-        <h1 className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Tax readiness</h1>
+        <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Tax readiness</h1>
         <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
           What you owe, when it's due, and how much is already set aside, estimated continuously from
           your banking activity.
@@ -92,7 +92,7 @@ function Taxes() {
       </header>
 
       <section className="mt-12 panel p-7 lg:p-8">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Set aside in Tax Reserve</p>
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Set aside in Tax Reserve</p>
         <p className="mt-3 text-[clamp(2rem,3.6vw,2.6rem)] font-semibold tracking-tight tabular-nums">
           CAD $38,400.00
         </p>
@@ -129,7 +129,7 @@ function Taxes() {
       </section>
 
       <section className="mt-10 panel p-6 sm:p-7">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Upcoming filing deadlines</p>
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Upcoming filing deadlines</p>
         <div className="mt-4">
           {OBLIGATIONS.map((o, i) => (
             <div
@@ -149,7 +149,7 @@ function Taxes() {
       </section>
 
       <section className="mt-10 panel p-7 lg:p-8">
-        <p className="flex items-center gap-2 text-[19px] font-semibold tracking-tight text-ink">
+        <p className="flex items-center gap-2 font-display text-[21px] font-semibold tracking-tight text-ink">
           <Sparkles className="size-3.5 text-brand" strokeWidth={1.9} /> Alfie is watching your tax position
         </p>
         <ul className="mt-4 divide-y divide-hairline">
@@ -221,7 +221,7 @@ function Taxes() {
       </section>
 
       <section className="mt-10 panel p-6 sm:p-7">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Historical filing periods</p>
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Historical filing periods</p>
         <div className="mt-4">
           {HISTORY.map((h, i) => (
             <div

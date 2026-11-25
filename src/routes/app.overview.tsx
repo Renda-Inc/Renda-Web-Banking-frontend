@@ -129,7 +129,6 @@ const BUSINESS_ACTIVITY = [
 function Overview() {
   const business = useIsBusiness();
   const accounts = business ? BUSINESS_ACCOUNTS : PERSONAL_ACCOUNTS;
-  const snapshot = business ? BUSINESS_SNAPSHOT : PERSONAL_SNAPSHOT;
   const people = business ? VENDORS : PEOPLE;
   const activity = business ? BUSINESS_ACTIVITY : PERSONAL_ACTIVITY;
 
@@ -217,21 +216,30 @@ function Overview() {
         </div>
       </section>
 
-      {!business ? (
-        <section className="panel mt-6 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
+      <section className="panel mt-6 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
           <p className="flex items-center gap-2 text-[13.5px] font-medium text-brand">
             <Sparkles className="size-[15px]" strokeWidth={2} />
             Alfie's brief
           </p>
           <div className="mt-5 max-w-[640px] space-y-3.5 font-display text-[19px] leading-relaxed text-ink">
-            <p>Hydro Ottawa, $84.20, is due tomorrow. It is covered by Smart Spend, so there is nothing for you to do.</p>
-            <p>Payroll of $3,140 arrives Friday, and your Kyoto goal is three weeks ahead of schedule.</p>
-            <p>You are $74 under on dining this month. I can move that into Sense Save before it drifts.</p>
+            {business ? (
+              <>
+                <p>Revenue is tracking 14% ahead of forecast, and Harbour Client Co. paid their invoice early.</p>
+                <p>Payroll of $48,300 runs on the 29th. Your Payroll Reserve covers it in full.</p>
+                <p>Your GST remittance is due in 12 days. I can move $8,400 into the Tax Reserve now so it is settled.</p>
+              </>
+            ) : (
+              <>
+                <p>Hydro Ottawa, $84.20, is due tomorrow. It is covered by Smart Spend, so there is nothing for you to do.</p>
+                <p>Payroll of $3,140 arrives Friday, and your Kyoto goal is three weeks ahead of schedule.</p>
+                <p>You are $74 under on dining this month. I can move that into Sense Save before it drifts.</p>
+              </>
+            )}
           </div>
           {briefAction === "pending" ? (
             <div className="mt-6 flex flex-wrap gap-2.5">
               <button type="button" onClick={() => setBriefAction("done")} className="h-10 rounded-full bg-ink px-5 text-[15px] font-medium text-background transition-opacity hover:opacity-85">
-                Move $74 to Sense Save
+                {business ? "Move $8,400 to Tax Reserve" : "Move $74 to Sense Save"}
               </button>
               <button type="button" onClick={() => setBriefAction("dismissed")} className="h-10 rounded-full bg-card/70 px-5 text-[15px] font-medium text-ink transition-colors hover:bg-card">
                 Not now
@@ -240,53 +248,12 @@ function Overview() {
           ) : briefAction === "done" ? (
             <p className="mt-6 flex items-center gap-2 text-[15px] font-medium text-ink">
               <ShieldCheck className="size-[17px] text-brand" strokeWidth={2} />
-              Done. $74 is on its way to Sense Save.
+              {business ? "Done. $8,400 is on its way to your Tax Reserve." : "Done. $74 is on its way to Sense Save."}
             </p>
           ) : (
             <p className="mt-6 text-[15px] text-muted-foreground">Okay, I will leave it where it is.</p>
           )}
         </section>
-      ) : null}
-
-      {business ? (
-      <section className="panel mt-6 p-7 sm:p-8">
-        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Today's snapshot</p>
-        {business ? (
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {snapshot.map(({ icon: Icon, text, tone }) => (
-              <article key={text} className="surface flex gap-4 p-5">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-[0.5rem] bg-accent text-accent-foreground">
-                  <Icon className="size-[15px]" strokeWidth={1.8} />
-                </span>
-                <div>
-                  <p className="text-[13px] font-medium text-ink">
-                    {tone}
-                  </p>
-                  <p className="mt-1.5 text-[15.5px] leading-snug text-ink">{text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <ul className="mt-4 space-y-1.5">
-            {snapshot.map(({ icon: Icon, text, tone }) => (
-              <li
-                key={text}
-                className="flex items-center gap-4 rounded-2xl px-3 py-3 transition-colors duration-200 hover:bg-canvas"
-              >
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
-                  <Icon className="size-[16px]" strokeWidth={1.8} />
-                </span>
-                <p className="text-[15.5px] leading-snug text-ink">{text}</p>
-                <span className="ml-auto hidden shrink-0 rounded-full bg-canvas px-3 py-1 text-[12.5px] font-medium text-muted-foreground sm:block">
-                  {tone}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      ) : null}
 
       <section className="panel mt-6 p-7 sm:p-8">
         <div className="flex items-center justify-between gap-4">

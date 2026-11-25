@@ -46,12 +46,12 @@ const GOALS = [
 ];
 
 const RESERVES = [
-  { name: "Tax Reserve", category: "Compliance", saved: 38400, target: 46000, date: "Quarterly" },
-  { name: "Payroll Reserve", category: "Operations", saved: 96600, target: 96600, date: "Rolling" },
-  { name: "Growth Reserve", category: "Expansion", saved: 42000, target: 120000, date: "March 2027" },
-  { name: "Equipment Reserve", category: "Capital", saved: 24600, target: 30000, date: "November 2026" },
-  { name: "Marketing Reserve", category: "Demand", saved: 9800, target: 24000, date: "January 2027" },
-  { name: "Emergency Reserve", category: "Resilience", saved: 58000, target: 90000, date: "No fixed date" },
+  { name: "Tax Reserve", line: "GST is due in 12 days. This covers it, with room to spare.", category: "Compliance", saved: 38400, target: 46000, date: "Quarterly" },
+  { name: "Payroll Reserve", line: "Fully funded. The 29th is covered.", category: "Operations", saved: 96600, target: 96600, date: "Rolling" },
+  { name: "Growth Reserve", line: "Steady at $6,000 a month. March 2027 holds.", category: "Expansion", saved: 42000, target: 120000, date: "March 2027" },
+  { name: "Equipment Reserve", line: "One quiet quarter away from the full amount.", category: "Capital", saved: 24600, target: 30000, date: "November 2026" },
+  { name: "Marketing Reserve", line: "Campaign season starts January. On pace.", category: "Demand", saved: 9800, target: 24000, date: "January 2027" },
+  { name: "Emergency Reserve", line: "About four months of cover, and building.", category: "Resilience", saved: 58000, target: 90000, date: "No fixed date" },
 ];
 
 function money(v: number) {
@@ -87,13 +87,13 @@ function Goals() {
       </header>
 
       {business ? (
-        <section className="panel mt-12 grid gap-5 p-6 sm:grid-cols-2 sm:p-7 lg:grid-cols-3">
+        <section className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {RESERVES.map((r) => {
             const pct = Math.round((r.saved / r.target) * 100);
             return (
               <article
                 key={r.name}
-                className="surface flex flex-col p-7"
+                className="panel flex flex-col p-7"
               >
                 <div className="flex items-start justify-between gap-3">
                   <p className="text-[13px] font-medium text-ink">
@@ -120,6 +120,10 @@ function Goals() {
                   <span className="tabular-nums">{pct}% funded</span>
                   <span>{r.date}</span>
                 </div>
+                <p className="mt-5 flex items-start gap-2.5 text-[15px] leading-relaxed text-muted-foreground">
+                  <Sparkles className="mt-0.5 size-[15px] shrink-0 text-brand" strokeWidth={2} />
+                  {r.line}
+                </p>
               </article>
             );
           })}

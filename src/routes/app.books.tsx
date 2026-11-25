@@ -118,10 +118,10 @@ function Books() {
   const drillRows = drill ? inPeriod.filter((x) => x.category === drill) : [];
 
   return (
-    <div className="rise mx-auto max-w-[1100px]">
+    <div className="rise max-w-[1100px]">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[560px]">
-          <h1 className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Books</h1>
+          <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Books</h1>
           <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
             Bookkeeping built from your categorised banking activity, always current, period by period.
           </p>
@@ -173,7 +173,7 @@ function Books() {
 
       <section className="mt-6 grid gap-5 lg:grid-cols-3">
         <div className="panel p-7">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">Assets</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Assets</p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(assets)}</p>
           <ul className="mt-4 space-y-2 text-[15.5px] text-ink">
             {BALANCE_SHEET.assets.map(([k, v]) => (
@@ -185,7 +185,7 @@ function Books() {
           </ul>
         </div>
         <div className="panel p-7">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">Liabilities</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Liabilities</p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(liabilities)}</p>
           <ul className="mt-4 space-y-2 text-[15.5px] text-ink">
             {BALANCE_SHEET.liabilities.map(([k, v]) => (
@@ -197,7 +197,7 @@ function Books() {
           </ul>
         </div>
         <div className="panel p-7">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">Owner equity</p>
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Owner equity</p>
           <p className="mt-3 text-[22px] font-semibold tabular-nums">{shortMoney(equity)}</p>
           <p className="mt-4 text-[15.5px] leading-relaxed text-ink">
             Assets less liabilities, refreshed as transactions settle.
@@ -211,7 +211,7 @@ function Books() {
 
       <section className="mt-10 panel p-7 lg:p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-[19px] font-semibold tracking-tight text-ink">
+          <p className="font-display text-[21px] font-semibold tracking-tight text-ink">
             Largest expense categories · {yearly ? YEAR : monthLabel(period)}
           </p>
           <p className="text-[15px] text-ink">Select a category to see its transactions</p>
@@ -242,7 +242,7 @@ function Books() {
       </section>
 
       <section className="mt-6 panel p-7 lg:p-8">
-        <p className="text-[19px] font-semibold tracking-tight text-ink">Monthly summary</p>
+        <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Monthly summary</p>
         <div className="mt-5 grid gap-6 sm:grid-cols-2">
           <div>
             <p className="text-[15.5px] text-ink">Income</p>
@@ -272,7 +272,7 @@ function Books() {
       </section>
 
       <section className="mt-6 panel p-7 lg:p-8">
-        <p className="flex items-center gap-2 text-[19px] font-semibold tracking-tight text-ink">
+        <p className="flex items-center gap-2 font-display text-[21px] font-semibold tracking-tight text-ink">
           <Sparkles className="size-3.5 text-brand" strokeWidth={1.9} /> Reconciliation
         </p>
         <ul className="mt-4 divide-y divide-hairline">

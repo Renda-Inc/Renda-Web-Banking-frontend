@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
+import { Building2, Sparkles } from "lucide-react";
 import { RendaLogo } from "@/components/renda/logo";
 import { setStoredMode, type BankingMode } from "@/components/renda/mode";
 
@@ -54,17 +54,18 @@ function Entry() {
           >
             Log In
           </button>
+          <button
+            type="button"
+            onClick={() => enter("business")}
+            className="inline-flex h-[52px] items-center justify-center gap-2.5 rounded-full bg-secondary px-10 text-[16px] font-medium text-ink transition-all duration-300 hover:bg-accent active:scale-[0.99]"
+          >
+            <Building2 className="size-[17px]" strokeWidth={1.9} />
+            Business Banking
+          </button>
           <p className="flex items-center gap-2 text-[15px] text-muted-foreground">
             <Sparkles className="size-[15px] text-brand" strokeWidth={2} />
             Alfie: your Kyoto goal is three weeks ahead of schedule.
           </p>
-          <button
-            type="button"
-            onClick={() => enter("business")}
-            className="text-[14.5px] font-medium text-muted-foreground underline decoration-hairline underline-offset-4 transition-colors hover:text-ink"
-          >
-            Log in to Business Banking instead
-          </button>
         </div>
 
       </div>

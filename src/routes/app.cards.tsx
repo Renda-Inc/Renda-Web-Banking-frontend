@@ -210,10 +210,10 @@ function Cards() {
   const active = teamCards.find((c) => c.id === selected) ?? teamCards[0]!;
 
   return (
-    <div className="rise mx-auto max-w-[1100px]">
+    <div className="rise max-w-[1100px]">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[560px]">
-          <h1 className="text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">
+          <h1 className="font-display text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">
             Business Cards
           </h1>
           <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
