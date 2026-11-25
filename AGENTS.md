@@ -113,11 +113,12 @@ Banking button back on the entry screen):
 ## Business suite navigation (user decision, 2026-11-24)
 
 Expenses, Books and Tax Readiness are NOT in the side rail. The rail's
-business utility icons were removed entirely. Instead, a Business suite
-bar (label + Expenses / Books / Tax Readiness pills, active one filled)
-sits at the top of EVERY business screen, rendered by the app shell, so
-the suite is reachable from anywhere in business mode with no activation
-step. A slide-in suite drawer was mocked and rejected by the user (it
+business utility icons were removed entirely. The suite is a floating dock: a dark pill bar (Expenses / Books /
+Tax Readiness, active one white) stuck to the bottom of the banking
+column on EVERY business screen, rendered by the app shell after the
+Outlet. The user chose the dock over an in-flow top bar because a top
+bar made business page headers sit lower than individual ones; the dock
+takes no layout space, so headers align exactly across modes. A slide-in suite drawer was mocked and rejected by the user (it
 also rendered broken: fixed-position elements inside the pages' animated
 `rise` container get positioned against that container, not the
 viewport). Do not re-add rail icons for these screens.

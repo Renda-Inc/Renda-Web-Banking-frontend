@@ -20,9 +20,9 @@ function AppLayout() {
             <div className="atmos" aria-hidden="true" />
             <NavRail />
             <div className="relative z-10 flex w-full max-w-[1760px] gap-8 pb-28 pl-[92px] pr-5 pt-10 lg:pr-7">
-              <main className="min-w-0 flex-1">
-                <BusinessSuiteBar />
+              <main className="flex min-w-0 flex-1 flex-col">
                 <Outlet />
+                <BusinessSuiteBar />
               </main>
               <AlfiePanel />
             </div>
