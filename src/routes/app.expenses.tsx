@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BusinessSuiteMock } from "@/components/renda/business-suite-mock";
 import { useMemo, useState } from "react";
 import { Paperclip, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
@@ -151,6 +152,7 @@ function Expenses() {
 
   return (
     <div className="rise max-w-[1100px]">
+      <BusinessSuiteMock />
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[560px]">
           <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Expenses</h1>

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BusinessSuiteMock } from "@/components/renda/business-suite-mock";
 import { useMemo, useState } from "react";
 import { Search, Sparkles } from "lucide-react";
 import { toast } from "sonner";
@@ -83,6 +84,7 @@ function Taxes() {
 
   return (
     <div className="rise max-w-[1100px]">
+      <BusinessSuiteMock />
       <header className="max-w-[600px]">
         <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Tax readiness</h1>
         <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
