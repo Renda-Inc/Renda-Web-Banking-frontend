@@ -150,3 +150,30 @@ needs them. The data already carried per-expense `reasoning` and
   records unstriped, and every "Alfie is watching" item that can act now
   has an action (review in Expenses, jump to the record, flag for the
   accountant, add a claim).
+
+## Business Cards redesign (user approved after competitor review, 2026-11-25)
+
+Research (Ramp, Brex, Mercury, Float, Relay, Airwallex, Rippling) found
+card platforms organise around the limit and the spend, not the
+cardholder, and that receipt policy is now an enforcement mechanism
+(auto-freeze when documentation is missing). Business Cards rebuilt:
+
+- Team card model is real state now: numeric monthly/per-transaction
+  limits, category restrictions, ATM/international/online toggles,
+  approval rule, lifecycle status (active / frozen / pending =
+  waiting for activation), receipt threshold + auto-freeze toggle,
+  temporary limit with an expiry, per-card transactions with receipt
+  states, and an activity trail. The issue flow's controls are kept on
+  the card and editable afterwards (they used to be discarded).
+- Main page: Alfie hero (team spend vs limits, near-limit cards,
+  receipts being chased, pending activations), search + team filter,
+  card rows as spend objects (spent of limit, utilisation bar, status
+  pill with a next-action line), and a "Recurring on team cards" strip
+  where Alfie flags duplicates across cards.
+- Card sub-page (in-app detail view): Alfie's read on the card, Spend
+  this cycle with transactions and receipt states, Spending controls
+  (limits, categories, approval, channel toggles, temporary limit that
+  reverts itself), Receipt policy (threshold, freeze-when-overdue,
+  missing list with chase status), card art + existing Information /
+  Freeze / Security actions, activation for pending cards, and the
+  activity trail. Personal cards unchanged.
