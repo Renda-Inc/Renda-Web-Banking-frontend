@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { ArrowUp, Minus, Sparkles } from "lucide-react";
+import { ArrowUp, Bell, Check, Minus, Sparkles, TrendingDown } from "lucide-react";
 import { useIsBusiness } from "./mode";
 
 const PROMPTS = [
@@ -20,6 +20,7 @@ export function AlfiePanel() {
   const business = useIsBusiness();
   const prompts = business ? BUSINESS_PROMPTS : PROMPTS;
   const [minimized, setMinimized] = useState(false);
+  const [action, setAction] = useState<"pending" | "done" | "dismissed">("pending");
 
   useEffect(() => {
     if (pathname.startsWith("/app/overview")) setMinimized(false);
@@ -63,13 +64,34 @@ export function AlfiePanel() {
             : "You're spending about $74 CAD less on dining this month than last. Want me to move that into Sense Save?"}
         </p>
 
-        <div className="mt-5 flex flex-wrap gap-2.5">
-          <button className="h-9 rounded-full bg-ink px-4 text-[15px] font-medium text-background transition-opacity hover:opacity-85">
-            {business ? "Move $8,400" : "Move $74"}
-          </button>
-          <button className="h-9 rounded-full border border-hairline px-4 text-[15px] font-medium text-ink transition-colors hover:bg-secondary">
-            Not now
-          </button>
+        {action === "pending" ? (
+          <div className="mt-5 flex flex-wrap gap-2.5">
+            <button type="button" onClick={() => setAction("done")} className="h-9 rounded-full bg-ink px-4 text-[15px] font-medium text-background transition-opacity hover:opacity-85">
+              {business ? "Move $8,400" : "Move $74"}
+            </button>
+            <button type="button" onClick={() => setAction("dismissed")} className="h-9 rounded-full border border-hairline px-4 text-[15px] font-medium text-ink transition-colors hover:bg-secondary">
+              Not now
+            </button>
+          </div>
+        ) : action === "done" ? (
+          <p className="mt-5 flex items-center gap-2 rounded-2xl bg-brand-soft px-4 py-3 text-[14.5px] font-medium text-ink">
+            <Check className="size-[16px] shrink-0 text-brand" strokeWidth={2.2} />
+            {business ? "Done. $8,400 moved to your Tax Reserve." : "Done. $74 moved to Sense Save."}
+          </p>
+        ) : (
+          <p className="mt-5 text-[14.5px] text-muted-foreground">Okay, leaving it as is.</p>
+        )}
+
+        <div className="mt-7 space-y-3.5 border-t border-hairline pt-6">
+          <p className="text-[13.5px] font-medium text-ink">This week</p>
+          <p className="flex items-start gap-3 text-[15px] leading-relaxed text-muted-foreground">
+            <TrendingDown className="mt-0.5 size-[16px] shrink-0 text-brand" strokeWidth={1.9} />
+            {business ? "Revenue is tracking 14% ahead of forecast." : "Dining is down $74 this month, a quieter month than usual."}
+          </p>
+          <p className="flex items-start gap-3 text-[15px] leading-relaxed text-muted-foreground">
+            <Bell className="mt-0.5 size-[16px] shrink-0 text-brand" strokeWidth={1.9} />
+            {business ? "GST remittance is due in 12 days." : "Three bills land within four days of each other next month."}
+          </p>
         </div>
 
         <div className="mt-7 space-y-4 border-t border-hairline pt-6">

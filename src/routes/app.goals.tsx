@@ -38,11 +38,11 @@ export const Route = createFileRoute("/app/goals")({
 });
 
 const GOALS = [
-  { name: "Kyoto Vacation", image: kyoto, saved: 3200, target: 5000, date: "April 2027" },
-  { name: "Emergency Fund", image: emergency, saved: 6100, target: 9000, date: "December 2026" },
-  { name: "First Home", image: home, saved: 24500, target: 80000, date: "August 2029" },
-  { name: "New Car", image: car, saved: 4100, target: 18000, date: "June 2028" },
-  { name: "Wedding", image: wedding, saved: 11200, target: 26000, date: "September 2027" },
+  { name: "Kyoto Vacation", line: "Three weeks ahead of schedule. Mid-April, at this pace.", image: kyoto, saved: 3200, target: 5000, date: "April 2027" },
+  { name: "Emergency Fund", line: "Two quiet months away from full cover.", image: emergency, saved: 6100, target: 9000, date: "December 2026" },
+  { name: "First Home", line: "The long game, at a steady $850 a month.", image: home, saved: 24500, target: 80000, date: "August 2029" },
+  { name: "New Car", line: "On pace for June 2028, no rush needed.", image: car, saved: 4100, target: 18000, date: "June 2028" },
+  { name: "Wedding", line: "Vendors can wait until spring, you are well ahead.", image: wedding, saved: 11200, target: 26000, date: "September 2027" },
 ];
 
 const RESERVES = [
@@ -63,10 +63,10 @@ function Goals() {
   const [planning, setPlanning] = useState(false);
 
   return (
-    <div className="rise mx-auto max-w-[1100px]">
+    <div className="rise max-w-[1100px]">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-[560px]">
-          <h1 className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">
+          <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">
             {business ? "SmartReserve" : "Goals"}
           </h1>
           <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
@@ -125,13 +125,13 @@ function Goals() {
           })}
         </section>
       ) : (
-        <section className="panel mt-12 grid gap-6 p-6 sm:grid-cols-2 sm:p-7 lg:grid-cols-3">
+        <section className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {GOALS.map((g) => {
             const pct = Math.round((g.saved / g.target) * 100);
             return (
               <article
                 key={g.name}
-                className="surface group overflow-hidden"
+                className="panel group overflow-hidden"
               >
                 <div className="relative h-[190px] overflow-hidden">
                   <img
@@ -165,6 +165,10 @@ function Goals() {
                       style={{ width: `${pct}%` }}
                     />
                   </div>
+                  <p className="mt-5 flex items-start gap-2.5 text-[15px] leading-relaxed text-muted-foreground">
+                    <Sparkles className="mt-0.5 size-[15px] shrink-0 text-brand" strokeWidth={2} />
+                    {g.line}
+                  </p>
                 </div>
               </article>
             );
@@ -173,7 +177,7 @@ function Goals() {
           <button
             type="button"
             onClick={() => setPlanning(true)}
-            className="rounded-[0.875rem] border border-dashed border-hairline bg-canvas flex min-h-[300px] flex-col items-center justify-center gap-3 p-7 text-center transition-colors hover:bg-card"
+            className="flex min-h-[300px] flex-col items-center justify-center gap-3 rounded-[1.75rem] border border-dashed border-hairline bg-canvas p-7 text-center transition-colors hover:bg-card"
           >
             <span className="flex size-11 items-center justify-center rounded-full bg-accent text-accent-foreground">
               <Sparkles className="size-[18px]" strokeWidth={1.9} />

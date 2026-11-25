@@ -68,3 +68,25 @@ This repo is the only Renda Web Banking codebase.
   satisfaction, then apply the same foundation to business banking.
   Business mode and data stay in the code, undesigned, until then.
 - Account names are "Smart Spend" and "Sense Save" (two words).
+
+## Full redesign v2 (user approved, 2026-11-24)
+
+The user approved Muse's full-redesign proposal ("Alfie's home, money
+lives in it") and it was built the same night:
+
+- Overview: Alfie's brief is the hero for individuals, plain-language
+  sentences with inline actions; confirming an action shows a receipt in
+  place ("Done. $74 is on its way to Sense Save."). The statistics
+  snapshot is business-only now.
+- Alfie panel is a working surface: brief, an action with an in-panel
+  receipt, a "This week" watch list, earlier items, prompts, composer.
+- Finance: Smart Spend is a dark hero card; Statistics is one calm panel
+  of plain numbers (Money in / Money out / All movement), the coloured
+  stat tiles are gone; subscriptions are soft hover rows.
+- Goals: cards stand on the canvas (no wrapper panel), photo-first, each
+  with one Alfie sentence under the progress bar.
+- Insights is now "This week with Alfie", a story page, not charts.
+- Entry: one Log In button (individual), an Alfie line under it, and
+  Business Banking as a quiet text link.
+- Persona is consistent: Angels Adeyemi, angels@renda.ca, initials AA
+  everywhere (finance data, cards, nav rail).

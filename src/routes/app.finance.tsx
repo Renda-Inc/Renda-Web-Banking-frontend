@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useIsBusiness } from "@/components/renda/mode";
-import { useTheme } from "@/components/renda/theme";
 import {
   Dialog,
   DialogContent,
@@ -99,9 +98,9 @@ function Finance() {
   }
 
   return (
-    <div className="rise mx-auto max-w-[1000px]">
+    <div className="rise max-w-[1040px]">
       <header className="max-w-[600px]">
-        <h1 className="text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Finance</h1>
+        <h1 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-semibold leading-tight">Finance</h1>
         <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
           {business
             ? "Operating accounts, payees and company movement, in one quiet place."
@@ -111,18 +110,25 @@ function Finance() {
 
       {/* Accounts */}
       <section className="mt-12 grid gap-5 sm:grid-cols-2">
-        {accounts.map((a) => (
-          <article key={a.id} className="panel p-7">
+        {accounts.map((a, i) => (
+          <article
+            key={a.id}
+            className={
+              i === 0
+                ? "rounded-[1.75rem] bg-ink p-7 text-background shadow-[0_24px_48px_-28px_rgba(20,16,8,0.55)]"
+                : "panel p-7"
+            }
+          >
             <div className="flex items-center justify-between">
               <p className="text-[15px] font-medium">{a.name}</p>
-              <span className="text-[13px] font-medium text-ink">
+              <span className={`text-[13px] font-medium ${i === 0 ? "opacity-60" : "text-ink"}`}>
                 ···· {a.last4}
               </span>
             </div>
             <p className="mt-7 text-[clamp(1.5rem,2.2vw,1.9rem)] font-semibold tracking-tight tabular-nums">
               {cad(a.balance)}
             </p>
-            <p className="mt-2 text-[15px] text-muted-foreground">{a.note}</p>
+            <p className={`mt-2 text-[15px] ${i === 0 ? "opacity-60" : "text-muted-foreground"}`}>{a.note}</p>
           </article>
         ))}
       </section>
@@ -153,7 +159,7 @@ function Finance() {
       {/* Contacts */}
       <section className="panel mt-6 p-7 lg:p-8">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-[19px] font-semibold tracking-tight">
+          <h2 className="font-display text-[21px] font-semibold tracking-tight">
             {business ? "Business recipients" : "My Renda contacts"}
           </h2>
           <div className="flex items-center gap-2">
@@ -203,7 +209,7 @@ function Finance() {
       {/* Statistics */}
       <section className="mt-10">
         <div className="flex flex-wrap items-center justify-between gap-4 px-1">
-          <h2 className="text-[19px] font-semibold tracking-tight">Statistics</h2>
+          <h2 className="font-display text-[21px] font-semibold tracking-tight">Statistics</h2>
 
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 rounded-full bg-secondary p-1">
@@ -248,32 +254,28 @@ function Finance() {
 
         <p className="mt-3 px-1 text-[14px] text-muted-foreground">{periodLabel(days, offset)}</p>
 
-        <div className="panel mt-4 p-6 lg:p-7">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Stat tone="transactions" label="Transactions" value={String(stats.transactions)} />
-          <Stat tone="sent" label="Sent" value={String(stats.sent)} note="payments out" />
-          <Stat tone="received" label="Received" value={String(stats.received)} note="payments in" />
-        </div>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Stat tone="inflow" label="Inflow" value={cad(stats.inflow)} />
-          <Stat tone="outflow" label="Outflow" value={cad(stats.outflow)} />
-        </div>
+        <div className="panel mt-4 p-7 lg:p-8">
+          <div className="grid gap-8 sm:grid-cols-3">
+            <PlainStat label="Money in" value={cad(stats.inflow)} note={`${stats.received} payments received`} />
+            <PlainStat label="Money out" value={cad(stats.outflow)} note={`${stats.sent} payments sent`} />
+            <PlainStat label="All movement" value={String(stats.transactions)} note="transactions in this period" />
+          </div>
         </div>
       </section>
 
       {/* Subscriptions */}
       <section className="mt-10">
         <div className="flex items-baseline justify-between px-1">
-          <h2 className="text-[19px] font-semibold tracking-tight">Subscriptions</h2>
+          <h2 className="font-display text-[21px] font-semibold tracking-tight">Subscriptions</h2>
           <p className="text-[14px] text-muted-foreground">
             {cad(monthlySubs)} a month · {subscriptions.filter((s) => s.status === "active").length}{" "}
             active
           </p>
         </div>
         <div className="panel mt-4 p-7 lg:p-8">
-          <ul className="divide-y divide-hairline">
+          <ul className="space-y-1">
             {subscriptions.map((s) => (
-              <li key={s.id} className="flex items-center gap-4 py-4 first:pt-0 last:pb-0">
+              <li key={s.id} className="flex items-center gap-4 rounded-2xl px-3 py-3.5 transition-colors duration-300 hover:bg-secondary/70">
                 <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-secondary text-[14.5px] font-semibold text-ink">
                   {s.logoUrl ? (
                     <img src={s.logoUrl} alt={s.name} className="size-full object-cover" />
@@ -462,7 +464,7 @@ function ActionTile({
       onClick={onClick}
       className={
         emphasis
-          ? "group rounded-[0.875rem] bg-ink p-6 text-left text-background shadow-[0_8px_24px_-18px_rgba(0,0,0,0.5)] transition-transform duration-500"
+          ? "group rounded-[1.5rem] bg-ink p-6 text-left text-background shadow-[0_20px_40px_-24px_rgba(20,16,8,0.5)] transition-transform duration-500"
           : "panel group p-6 text-left transition-transform duration-500"
       }
     >
@@ -483,45 +485,16 @@ function ActionTile({
   );
 }
 
-const STAT_TONES = {
-  transactions: { bg: "#FFFFFF", fg: "#111111" },
-  sent: { bg: "#FDC45B", fg: "#111111" },
-  received: { bg: "#D9D9D9", fg: "#111111" },
-  inflow: { bg: "#000000", fg: "#FFFFFF" },
-  outflow: { bg: "#157AD7", fg: "#FFFFFF" },
-} as const;
 
-function Stat({
-  label,
-  value,
-  note,
-  tone,
-}: {
-  label: string;
-  value: string;
-  note?: string;
-  tone: keyof typeof STAT_TONES;
-}) {
-  const { resolved } = useTheme();
-  const light = resolved === "light";
-  const palette = STAT_TONES[tone];
 
+function PlainStat({ label, value, note }: { label: string; value: string; note: string }) {
   return (
-    <div
-      className="surface p-6"
-      style={light ? { backgroundColor: palette.bg, color: palette.fg } : undefined}
-    >
-      <p className="text-[14px]" style={light ? { opacity: 0.62 } : undefined}>
-        <span className={light ? undefined : "text-muted-foreground"}>{label}</span>
-      </p>
-      <p className="mt-3 text-[clamp(1.3rem,2vw,1.6rem)] font-semibold tracking-tight tabular-nums">
+    <div>
+      <p className="text-[14px] text-muted-foreground">{label}</p>
+      <p className="mt-2.5 text-[clamp(1.45rem,2.1vw,1.8rem)] font-semibold tracking-tight tabular-nums text-ink">
         {value}
       </p>
-      {note && (
-        <p className="mt-1 text-[14px]" style={light ? { opacity: 0.62 } : undefined}>
-          <span className={light ? undefined : "text-muted-foreground"}>{note}</span>
-        </p>
-      )}
+      <p className="mt-1.5 text-[14px] text-muted-foreground">{note}</p>
     </div>
   );
 }

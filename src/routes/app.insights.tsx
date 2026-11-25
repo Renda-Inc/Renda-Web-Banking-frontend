@@ -4,7 +4,7 @@ import { Bell, Sparkles, TrendingDown } from "lucide-react";
 export const Route = createFileRoute("/app/insights")({
   head: () => ({
     meta: [
-      { title: "Insights · Renda Web" },
+      { title: "This week · Renda Web" },
       {
         name: "description",
         content: "Quiet observations and notifications from Alfie about your spending and upcoming money.",
@@ -41,17 +41,17 @@ const ITEMS = [
 
 function Insights() {
   return (
-    <div className="rise mx-auto max-w-[1000px]">
+    <div className="rise max-w-[1040px]">
       <header className="max-w-[560px]">
-        <h1 className="text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">Insights</h1>
+        <h1 className="font-display text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">This week with Alfie</h1>
         <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
-          What Alfie noticed, without asking for your attention.
+          A quieter week. Alfie moved nothing without asking, flagged three things, and kept watching the rest. Here is the story of it.
         </p>
       </header>
 
-      <section className="panel mt-12 space-y-4 p-6 sm:p-7">
+      <section className="mt-12 space-y-5">
         {ITEMS.map(({ icon: Icon, title, body, when }) => (
-          <article key={title} className="surface flex gap-5 p-6">
+          <article key={title} className="panel flex gap-5 p-7">
             <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
               <Icon className="size-[17px]" strokeWidth={1.8} />
             </span>

@@ -10,6 +10,7 @@ import {
   PiggyBank,
   ReceiptText,
   ShieldCheck,
+  Sparkles,
   Target,
   TrendingDown,
   TrendingUp,
@@ -132,6 +133,7 @@ function Overview() {
   const people = business ? VENDORS : PEOPLE;
   const activity = business ? BUSINESS_ACTIVITY : PERSONAL_ACTIVITY;
 
+  const [briefAction, setBriefAction] = useState<"pending" | "done" | "dismissed">("pending");
   const [showAllActivity, setShowAllActivity] = useState(false);
   const visibleActivity = showAllActivity ? activity : activity.slice(0, 3);
 
@@ -215,6 +217,38 @@ function Overview() {
         </div>
       </section>
 
+      {!business ? (
+        <section className="panel mt-6 rounded-[2rem] p-7 sm:p-9" style={{ background: "linear-gradient(135deg, var(--color-card) 55%, var(--color-brand-soft))" }}>
+          <p className="flex items-center gap-2 text-[13.5px] font-medium text-brand">
+            <Sparkles className="size-[15px]" strokeWidth={2} />
+            Alfie's brief
+          </p>
+          <div className="mt-5 max-w-[640px] space-y-3.5 font-display text-[19px] leading-relaxed text-ink">
+            <p>Hydro Ottawa, $84.20, is due tomorrow. It is covered by Smart Spend, so there is nothing for you to do.</p>
+            <p>Payroll of $3,140 arrives Friday, and your Kyoto goal is three weeks ahead of schedule.</p>
+            <p>You are $74 under on dining this month. I can move that into Sense Save before it drifts.</p>
+          </div>
+          {briefAction === "pending" ? (
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <button type="button" onClick={() => setBriefAction("done")} className="h-10 rounded-full bg-ink px-5 text-[15px] font-medium text-background transition-opacity hover:opacity-85">
+                Move $74 to Sense Save
+              </button>
+              <button type="button" onClick={() => setBriefAction("dismissed")} className="h-10 rounded-full bg-card/70 px-5 text-[15px] font-medium text-ink transition-colors hover:bg-card">
+                Not now
+              </button>
+            </div>
+          ) : briefAction === "done" ? (
+            <p className="mt-6 flex items-center gap-2 text-[15px] font-medium text-ink">
+              <ShieldCheck className="size-[17px] text-brand" strokeWidth={2} />
+              Done. $74 is on its way to Sense Save.
+            </p>
+          ) : (
+            <p className="mt-6 text-[15px] text-muted-foreground">Okay, I will leave it where it is.</p>
+          )}
+        </section>
+      ) : null}
+
+      {business ? (
       <section className="panel mt-6 p-7 sm:p-8">
         <p className="font-display text-[21px] font-semibold tracking-tight text-ink">Today's snapshot</p>
         {business ? (
@@ -252,6 +286,7 @@ function Overview() {
           </ul>
         )}
       </section>
+      ) : null}
 
       <section className="panel mt-6 p-7 sm:p-8">
         <div className="flex items-center justify-between gap-4">

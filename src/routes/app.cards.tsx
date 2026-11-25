@@ -27,7 +27,7 @@ const PERSONAL: RendaCard[] = [
   {
     id: "p1",
     nickname: "Smart Spend",
-    holder: "Angels Nwosu",
+    holder: "Angels Adeyemi",
     type: "Physical · Visa",
     last4: "4192",
     number: "4921 8830 5514 4192",
@@ -37,7 +37,7 @@ const PERSONAL: RendaCard[] = [
   {
     id: "p2",
     nickname: "Online",
-    holder: "Angels Nwosu",
+    holder: "Angels Adeyemi",
     type: "Virtual · Visa",
     last4: "8823",
     number: "4728 1190 6642 8823",
@@ -109,7 +109,7 @@ function CardArt({
 }) {
   return (
     <div
-      className={`relative flex min-h-[210px] w-full flex-col justify-between overflow-hidden rounded-[0.875rem] p-6 transition-all duration-500 ${
+      className={`relative flex min-h-[228px] w-full flex-col justify-between overflow-hidden rounded-[1.75rem] p-7 transition-all duration-500 ${
         dark
           ? "bg-ink text-background shadow-[0_10px_28px_-20px_rgba(0,0,0,0.55)]"
           : "bg-gradient-to-br from-brand to-brand/70 text-background shadow-[0_10px_28px_-20px_rgba(0,0,0,0.45)]"
@@ -167,9 +167,9 @@ function Cards() {
 
   if (!business) {
     return (
-      <div className="rise mx-auto max-w-[1000px]">
+      <div className="rise max-w-[1040px]">
         <header className="max-w-[560px]">
-          <h1 className="text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">My Cards</h1>
+          <h1 className="font-display text-[clamp(1.9rem,3vw,2.4rem)] font-semibold leading-tight">My Cards</h1>
           <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
             Two cards, both quiet until you need them.
           </p>

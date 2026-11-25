@@ -160,7 +160,7 @@ export function NavRail() {
           data-open={menu === "profile"}
           className="mt-1 flex size-10 items-center justify-center rounded-full bg-ink text-[14.5px] font-semibold text-background ring-brand/40 transition-all duration-200 hover:opacity-85 data-[open=true]:ring-2"
         >
-          {business ? "NS" : "AN"}
+          {business ? "NS" : "AA"}
         </button>
 
 
@@ -191,14 +191,14 @@ export function NavRail() {
           <div className="glass soft-fade absolute bottom-0 left-[calc(100%-6px)] w-[268px] rounded-[0.75rem] p-2.5">
             <div className="flex items-center gap-3 px-3 py-3">
               <span className="flex size-10 items-center justify-center rounded-full bg-ink text-[14.5px] font-semibold text-background">
-                {business ? "NS" : "AN"}
+                {business ? "NS" : "AA"}
               </span>
               <div>
                 <p className="text-[15.5px] font-semibold text-ink">
-                  {business ? "Northline Studio" : "Angels"}
+                  {business ? "Northline Studio" : "Angels Adeyemi"}
                 </p>
                 <p className="mt-0.5 text-[14px] text-muted-foreground">
-                  {business ? "team@northlinestudio.ca" : "angels@renda.com"}
+                  {business ? "team@northlinestudio.ca" : "angels@renda.ca"}
                 </p>
               </div>
             </div>

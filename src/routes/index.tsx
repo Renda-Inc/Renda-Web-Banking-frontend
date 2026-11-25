@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Building2, User } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { RendaLogo } from "@/components/renda/logo";
 import { setStoredMode, type BankingMode } from "@/components/renda/mode";
 
@@ -46,22 +46,24 @@ function Entry() {
           browser while enjoying the same intelligence-first experience designed for desktop.
         </p>
 
-        <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center gap-5">
           <button
             type="button"
             onClick={() => enter("individual")}
-            className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-ink px-8 text-[15px] font-medium text-background transition-all duration-200 hover:opacity-88 active:scale-[0.985]"
+            className="inline-flex h-[54px] items-center justify-center rounded-full bg-ink px-14 text-[16.5px] font-medium text-background shadow-[0_10px_28px_-14px_rgba(20,16,8,0.5)] transition-all duration-300 hover:opacity-88 active:scale-[0.99]"
           >
-            <User className="size-[17px]" strokeWidth={1.9} />
-            Log in as Individual
+            Log In
           </button>
+          <p className="flex items-center gap-2 text-[15px] text-muted-foreground">
+            <Sparkles className="size-[15px] text-brand" strokeWidth={2} />
+            Alfie: your Kyoto goal is three weeks ahead of schedule.
+          </p>
           <button
             type="button"
             onClick={() => enter("business")}
-            className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-hairline bg-card px-8 text-[15px] font-medium text-ink transition-all duration-200 hover:bg-secondary active:scale-[0.985]"
+            className="text-[14.5px] font-medium text-muted-foreground underline decoration-hairline underline-offset-4 transition-colors hover:text-ink"
           >
-            <Building2 className="size-[17px]" strokeWidth={1.9} />
-            Log in as Business
+            Log in to Business Banking instead
           </button>
         </div>
 
